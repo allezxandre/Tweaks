@@ -59,7 +59,9 @@ the generation of a class list and an automatic constructor.
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coucou PD" message:@"RingerSwitch hooké" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
       [alert show];
       */
-      [SASettingSetDoNotDisturb setDoNotDisturb];
+      //SBCCDoNotDisturbSetting * Alazeub = [[SBCCDoNotDisturbSetting alloc] init];
+	  //[Alazeub activate];
+      //[SBCCDoNotDisturbSetting activate];
     });
 
 // Silent switch toggle
@@ -71,6 +73,21 @@ the generation of a class list and an automatic constructor.
 
 %end
 
+%hook SBCCDoNotDisturbSetting
+- (id)statusUpdate
+{
+	id retour = %orig;
+	NSLog(@"Hook : statusUpdate %@",retour);
+	return retour;
+	[self test];
+}
+
+-(void)test
+{ 
+  NSLog(@"Hook : test");
+}
+%end
+
 %hook SASettingSetDoNotDisturb
 + (id)setDoNotDisturb
 {
@@ -79,10 +96,31 @@ the generation of a class list and an automatic constructor.
   NSLog(@"Hook SASettingSetDoNotDisturb");
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Do Not Disturb" message:@"Hooké avec succès :D" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
   [alert show];
-  return %orig;
+  id retour = %orig;
+  NSLog(@"IDHOOK %@",retour);
+  return retour;
 }
 %end
 
+%hook SASettingOpenDoNotDisturb
++ (id)openDoNotDisturb
+{
+	NSLog(@"Hook openDoNotDisturb");
+	return %orig;
+}
+%end
+
+%hook SASettingGetDoNotDisturb
++ (id)getDoNotDisturb
+{
+  NSLog(@"Hook getDoNotDisturb");
+  id retour = %orig;
+  NSLog(@"IDHOOK %@",retour);
+  return retour;
+}
+%end
+
+/*
 %hook UIKeyboardPredictiveSettings
 
 - (void)pressRingerButton {
@@ -92,7 +130,7 @@ the generation of a class list and an automatic constructor.
 }
 
 %end
-
+*/
 
 %hook SpringBoard
 
