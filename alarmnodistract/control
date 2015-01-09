@@ -1,0 +1,9 @@
+Package: in.jouand.alarmnodistract
+Name: AlarmNoDistract
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Alexandre Jouandin
+Author: Alexandre Jouandin
+Section: Tweaks
