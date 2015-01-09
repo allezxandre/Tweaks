@@ -35,6 +35,8 @@ the generation of a class list and an automatic constructor.
 #import <UIKit/UIKit.h>
 #import <substrate.h>
 #import <notify.h>
+#import <Flipswitch/FSSwitchPanel.h>
+
 
 /*
 @interface SASettingSetDoNotDisturb //: SASettingSetBool
@@ -55,6 +57,7 @@ the generation of a class list and an automatic constructor.
     notify_register_dispatch("com.apple.springboard.ringerstate", &_ringerStateToken, dispatch_get_main_queue(), ^(int token) {
         //[self updateState];
       NSLog(@"Changement de ringer détecté");
+      [[FSSwitchPanel sharedPanel] applyActionForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"];
       /*
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coucou PD" message:@"RingerSwitch hooké" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
       [alert show];
@@ -80,11 +83,6 @@ the generation of a class list and an automatic constructor.
 	NSLog(@"Hook : statusUpdate %@",retour);
 	return retour;
 	[self test];
-}
-
--(void)test
-{ 
-  NSLog(@"Hook : test");
 }
 %end
 
@@ -134,11 +132,9 @@ the generation of a class list and an automatic constructor.
 
 %hook SpringBoard
 
--(void)ringerChanged:(int)arg1
+-(void)_ringerChanged:(struct __IOHIDEvent *)arg1
 {
-  %log;
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Coucou PD" message:@"RingerSwitch hooké pour de bon" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-  [alert show];
+  
   return;
 }
 
