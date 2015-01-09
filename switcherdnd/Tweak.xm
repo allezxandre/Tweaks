@@ -23,7 +23,7 @@
 		// Flip switch according to state
 		[[FSSwitchPanel sharedPanel] applyActionForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"];
 	//}
-	return %orig; // temp
+	return ;//%orig; // temp
 
 }
 
