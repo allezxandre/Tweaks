@@ -8,7 +8,8 @@
 
 %hook SpringBoard
 
--(void)_ringerChanged:(struct __IOHIDEvent *)arg1
+//-(void)_ringerChanged:(struct __IOHIDEvent *)arg1
+- (void)_updateRingerState:(int)arg1 withVisuals:(_Bool)arg2 updatePreferenceRegister:(_Bool)arg3
 {
 
 	// Check if vibrate
