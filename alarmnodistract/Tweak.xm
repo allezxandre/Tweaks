@@ -33,6 +33,34 @@ the generation of a class list and an automatic constructor.
 %end
 */
 
-@hook AlarmManager
-	
-@end
+#import "Tweak.h"
+
+%hook SpingBoard
+	- (void)applicationDidFinishLaunching:(id)arg1 {
+		%orig;
+		NSLog(@"HOOK Alarm: Ready to hook");
+	}
+%end
+
+%hook AlarmManager
+	- (void)handleAlarm:(id)arg1 stoppedUsingSong:(id)arg2 {
+		%orig;
+		NSLog(@"HOOK Alarm: handleAlarm arg1=%@, arg2=%@",arg1, arg2);
+	}
+	- (void)removeAlarm:(id)arg1 {
+		%orig;
+		NSLog(@"HOOK Alarm: handleAlarm arg1=%@",arg1);
+	}
+	- (void)handleNotificationFired:(id)arg1 {
+		%orig;
+		NSLog(@"HOOK Alarm: handleNotificationFired arg1=%@",arg1);
+	}
+	- (void)handleNotificationSnoozed:(id)arg1 {
+		%orig;
+		NSLog(@"HOOK Alarm: handleNotificationSnoozed arg1=%@",arg1);
+	}
+	- (void)handleExpiredOrSnoozedNotificationsOnly:(id)arg1 {
+		%orig;
+		NSLog(@"HOOK Alarm: handleExpiredOrSnoozedNotificationsOnly arg1=%@",arg1);
+	}
+%end
