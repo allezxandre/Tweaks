@@ -3,10 +3,10 @@ TARGET = iphone:clang:8.1:8.1
 
 include theos/makefiles/common.mk
 
-TWEAK_NAME = DNDSwitch
-DNDSwitch_FILES = Tweak.xm
-DNDSwitch_FRAMEWORKS = UIKit Foundation
-DNDSwitch_LIBRARIES = Flipswitch
+TWEAK_NAME = TorchSwitch
+TorchSwitch_FILES = Tweak.xm
+TorchSwitch_FRAMEWORKS = UIKit Foundation
+TorchSwitch_LIBRARIES = Flipswitch
 # DNDSwitch_LIBRARIES = substrate
 DNDSwitch_PRIVATE_FRAMEWORKS = SAObjects
 

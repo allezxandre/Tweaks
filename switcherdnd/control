@@ -1,6 +1,7 @@
-Package: in.jouand.switcher-dnd
-Name: SwitcherDND
-Depends: mobilesubstrate 
+Package: in.jouand.switcher-torch
+Name: SwitcherTorch
+Depends: mobilesubstrate
+Replaces: in.jouand.switcher-dnd
 Version: 0.2.0
 Architecture: iphoneos-arm
 Description: Use the ringer switch as a DND switcher
