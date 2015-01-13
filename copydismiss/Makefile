@@ -3,7 +3,7 @@ include theos/makefiles/common.mk
 
 TWEAK_NAME = CopyDismiss
 CopyDismiss_FILES = Tweak.xm
-CopyDismiss_FRAMEWORKS = UIKit Foundation
+CopyDismiss_FRAMEWORKS = UIKit Foundation MessageUI
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

@@ -27,7 +27,7 @@
 //  + (void)clearActiveForScreen:(id)arg1;
 //  + (void)makeKeyboardActive:(id)arg1 forScreen:(id)arg2;
 //  + (id)activeKeyboardForScreen:(id)arg1;
-//  + (void)_clearActiveKeyboard;
++ (void)_clearActiveKeyboard;
 + (id)activeKeyboard;
 //  @property(nonatomic) int keyboardIdiom; // @synthesize keyboardIdiom=m_idiom;
 //  - (void)_resizeForKeyplaneSize:(struct CGSize)arg1 splitWidthsChanged:(BOOL)arg2;
@@ -68,7 +68,7 @@
 //  - (int)textEffectsVisibilityLevel;
 //  - (void)displayLayer:(id)arg1;
 //  - (void)setNeedsDisplay;
-//  - (void)_deactivateForBackgrounding;
+  - (void)_deactivateForBackgrounding;
   - (void)deactivate;
 //  - (BOOL)isActive;
   - (void)activate;
@@ -100,7 +100,7 @@
 //  - (void)willMoveToWindow:(id)arg1;
 //  - (void)clearActivePerScreenIfNeeded;
 //  - (BOOL)isActivePerScreen;
-//  - (void)dealloc;
+  - (void)dealloc;
 //  - (id)initLazily;
 //  - (id)initWithDefaultSize;
 //  - (id)initWithFrame:(struct CGRect)arg1;
@@ -131,3 +131,15 @@
 //  - (BOOL)_isAutomaticKeyboard;
 
 @end
+
+/*
+@interface UIView : UIResponder
+{
+}
++ (Class)layerClass;
+- (BOOL)endEditing:(BOOL)arg1;
+@end
+*/
+
+
+
