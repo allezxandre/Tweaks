@@ -1,9 +1,9 @@
 Package: in.jouand.copy-dismiss
 Name: CopyDismiss
 Depends: mobilesubstrate
-Version: 0.0.1
+Version: 0.5.0
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Dismiss the Keyboard after copying/cuting text
 Maintainer: Alexandre Jouandin
 Author: Alexandre Jouandin
 Section: Tweaks
