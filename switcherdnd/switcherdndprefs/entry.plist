@@ -1,0 +1,10 @@
+{
+	entry = {
+		bundle = switcherdndprefs;
+		cell = PSLinkCell;
+		detail = "switcherdndprefsListController";
+		icon = "icon.png";
+		isController = 1;
+		label = "Switcher DND";
+	};
+}
