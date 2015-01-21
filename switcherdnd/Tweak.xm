@@ -10,46 +10,55 @@
 // Shameless copy from Kirb (Adam D) to implement settings
 static NSString *const kSWDNDPreferencesDomain = @"in.jouand.switcherdndprefs";
 static NSString *const kSWDNDPreferencesEnabledKey = @"Enabled";
-// static NSString *const kSWDNDPreferencesSwitchesKey = @"Switches";
-// static NSString *const kSWDNDPreferencesSectionLabelKey = @"SectionLabel";
-// static NSString *const kSWDNDPreferencesSwitchLabelsKey = @"SwitchLabels";
+static NSString *const kSWDNDPreferencesRingerBehaviorKey = @"Behavior";
 
 NSUserDefaults *userDefaults;
 
 %ctor {
+// Initialize settings 
   userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kSWDNDPreferencesDomain];
   [userDefaults registerDefaults:@{
-      kSWDNDPreferencesEnabledKey: @YES
+      kSWDNDPreferencesEnabledKey: @YES,
+      kSWDNDPreferencesRingerBehaviorKey: @1
   }];
-  // %init;
 };
 
 %hook SpringBoard
 // Hook the function that changes the Ringer mode
 - (void)_updateRingerState:(int)state withVisuals:(_Bool)arg2 updatePreferenceRegister:(_Bool)arg3
 {
-	//[userDefaults synchronize];
+	// NSLog(@"[SwitcherDND] updateRingerState:%i withVisuals:%d updatePreferenceRegister:%d",state,arg2,arg3);
 	if ([userDefaults boolForKey:kSWDNDPreferencesEnabledKey])
 	{
-		NSLog(@"HOOK SwitcherDND - Tweak is enabled: [userDefaults boolForKey = %d]", [userDefaults boolForKey:kSWDNDPreferencesEnabledKey]);
-		if ([[FSSwitchPanel sharedPanel] stateForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"] == state){ 
-		// Flip switch according to state
-		[[FSSwitchPanel sharedPanel] applyActionForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"];
-		}
-		NSLog(@"HOOK SwitcherDND - state = %d - updatePreferenceRegister:%d",state, arg3);
-		if (arg3) // if we have to "updatePreferenceRegister", then the current state is the opposite to the ringer setting, right? 
+		if ([[FSSwitchPanel sharedPanel] stateForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"] == state)
 		{
-			BOOL state_of_ringer = [[FSSwitchPanel sharedPanel] stateForSwitchIdentifier:@"com.a3tweaks.switch.ringer"];
-			NSLog(@"HOOK SwitcherDND - state= %d - State of Ringer = %d",state, state_of_ringer);
-			if (state != state_of_ringer) 
+			// Flip-switch DND according to 'state'
+			[[FSSwitchPanel sharedPanel] applyActionForSwitchIdentifier:@"com.a3tweaks.switch.do-not-disturb"];
+		}
+
+		if (arg3) // if we have to "updatePreferenceRegister" (arg3 = YES), then the iPhone is setting up after a boot/respring/reboot
+		{
+			switch ([userDefaults integerForKey:kSWDNDPreferencesRingerBehaviorKey]) // What setting should we apply for the ringer? 
 			{
-				[[FSSwitchPanel sharedPanel] applyActionForSwitchIdentifier:@"com.a3tweaks.switch.ringer"];
+				case 1: // Set to switch state
+					%orig;
+					// NSLog(@"[SwitcherDND] Behavior: Physical Switch");
+					break;
+				case 2: // Always ON
+					%orig(1,arg2,arg3);
+					// NSLog(@"[SwitcherDND] Behavior: Always ON");
+					break;
+				case 3: // Always OFF
+					%orig(0,arg2,arg3);
+					// NSLog(@"[SwitcherDND] Behavior: Always OFF");
+					break;
+				default:
+					NSLog(@"[SwitcherDND] ERROR: WTF is that? Bro, do you even integer? (Result = %@)",[userDefaults valueForKey:kSWDNDPreferencesRingerBehaviorKey]);
+					break;
 			}
 		}
-	} else {
-		NSLog(@"HOOK SwitcherDND - Tweak is disabled: [userDefaults boolForKey = %d]", [userDefaults boolForKey:kSWDNDPreferencesEnabledKey]);
+	} else { // SwitcherDND is disabled -> act as %orig
 		%orig;
 	}
-	
 }
 %end
