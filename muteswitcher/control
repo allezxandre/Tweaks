@@ -1,0 +1,9 @@
+Package: in.jouand.mute-switcher
+Name: MuteSwitcher
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Mute microphone using the iPhone's physical switcher
+Maintainer: Alexandre Jouandin
+Author: Alexandre Jouandin
+Section: Tweaks
