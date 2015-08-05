@@ -64,4 +64,13 @@ sudo wget http://apt.saurik.com/debs/mobilesubstrate_0.9.5101_iphoneos-arm.deb
 sudo dpkg-deb -x mobilesubstrate_0.9.5101_iphoneos-arm.deb mobilesubstrate
 sudo cp mobilesubstrate/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate $THEOS/lib/libsubstrate.dylib
 sudo cp mobilesubstrate/Library/Frameworks/CydiaSubstrate.framework/Headers/CydiaSubstrate.h $THEOS/include/substrate.h
+
+echo "Installing Flipswitch librairies"
+echo "YOU NEED FLIPSWITCH ON YOUR DEVICE"
+git clone https://github.com/a3tweaks/Flipswitch.git /tmp/Flipswitch
+sudo mv /tmp/Flipswitch/public $THOS/include/flipswitch
+rm -rf /tmp/Flipswitch
+echo "Pulling Flipswitch from your iPhone"
+sudo scp root@$ip_address:/usr/lib/libflipswitch.dylib $THEOS/lib/
+
 exit 0
