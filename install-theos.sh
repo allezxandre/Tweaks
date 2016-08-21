@@ -24,58 +24,17 @@ while true; do
 done
 #read -p "Quelle est l'addresse IP de l'iPhone ? " ip_address
 #echo "Adresse IP de l'iPhone : $ip_address"
+
+# https://github.com/theos/theos/wiki/Installation#prerequisites
+brew install dpkg ldid
+brew install --HEAD hbang/repo/deviceconsole  # (not required, but very useful)
+
 echo "Je recrée le dossier THEOS"
 sudo mkdir -p $THEOS
-# echo "export THEOS=/opt/theos" >> ~/.bash_profile
-echo "Je télécharge THEOS..."
-sudo git clone git://github.com/DHowett/theos.git $THEOS
+sudo chown $(id -u):$(id -g) $THEOS
 
-echo "On télécharge les headers"
-cd $THEOS/include
-#open .
-#echo -e "\nEn attente des headers...\n"
-#read -n 1 -s
-sudo git clone git://github.com/rpetrich/iphoneheaders.git $THEOS/include/rpetrich
-sudo mv $THEOS/include/rpetrich/* $THEOS/include/
-sudo rmdir $THEOS/include/rpetrich
+echo "Je télécharge THEOS dans le dossier ${THEOS}..."
+git clone --recursive https://github.com/theos/theos.git $THEOS
 
-for aFile in ~/.include.bk/*.h; do sudo mv $aFile $THEOS/include/; done
-sudo rmdir ~/.include.bk/
-
-echo "On prend le header IOSurfaceAPI..."
-cd $THEOS/include/IOSurface
-sudo wget https://raw.github.com/javacom/toolchain4/master/Projects/IOSurfaceAPI.h
-
-echo "Je télécharge 'ldid'"
-#cd $THEOS/bin
-#sudo git clone git://git.saurik.com/ldid.git
-#cd ldid
-#sudo git submodule update --init
-#sudo ./make.sh
-#sudo cp -f ./ldid $THEOS/bin/ldid
-#sudo chmod 755 $THEOS/bin/ldid
-brew install ldid
-
-#echo "On va se connecter à l'iPhone maintenant..."
-#echo "On va pouvoir récupérer 'CydiaSubstrate' qui est sur ton iPhone :"
-#sudo scp root@$ip_address:/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate $THEOS/lib
-#echo "Il faut aussi copier le header substrate.h :"
-#sudo scp root@$ip_address:/Library/Frameworks/CydiaSubstrate.framework/Headers/CydiaSubstrate.h $THEOS/include/substrate.h
-
-cd $THEOS
-echo "ARM64 -> Substrate update"
-sudo wget http://apt.saurik.com/debs/mobilesubstrate_0.9.6011_iphoneos-arm.deb
-sudo mkdir substrate
-sudo dpkg-deb -x dpkg-deb -x mobilesubstrate_*_iphoneos-arm.deb substrate
-sudo cp substrate/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate $THEOS/lib/libsubstrate.dylib
-sudo cp substrate/Library/Frameworks/CydiaSubstrate.framework/Headers/CydiaSubstrate.h $THEOS/include/substrate.h
-
-echo "Installing Flipswitch librairies"
-echo "YOU NEED FLIPSWITCH ON YOUR DEVICE"
-git clone https://github.com/a3tweaks/Flipswitch.git /tmp/Flipswitch
-sudo mv /tmp/Flipswitch/public $THOS/include/flipswitch
-rm -rf /tmp/Flipswitch
-#echo "Pulling Flipswitch from your iPhone"
-#sudo scp root@$ip_address:/usr/lib/libflipswitch.dylib $THEOS/lib/
-
+echo "Voilà ! Theos est installé !"
 exit 0
