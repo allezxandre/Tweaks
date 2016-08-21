@@ -1,3 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
 clear
 echo -e "\nSalut :)\n"
 THEOS=/opt/theos
