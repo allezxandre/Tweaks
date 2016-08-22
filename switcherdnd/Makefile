@@ -1,5 +1,5 @@
 ARCHS = armv7 arm64
-TARGET = iphone:clang:8.4:8.4
+TARGET = iphone:clang:9.2:9.0
 
 include theos/makefiles/common.mk
 
@@ -8,7 +8,7 @@ DNDSwitch_FILES = Tweak.xm
 DNDSwitch_FRAMEWORKS = UIKit Foundation
 DNDSwitch_LIBRARIES = Flipswitch
 # DNDSwitch_LIBRARIES = substrate
-DNDSwitch_PRIVATE_FRAMEWORKS = SAObjects
+# DNDSwitch_PRIVATE_FRAMEWORKS = SAObjects
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
